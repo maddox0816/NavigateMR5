@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigate MR5</title>
+    <script type="module" src="https://js.arcgis.com/embeddable-components/4.32/arcgis-embeddable-components.esm.js"></script>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1E2A3A;
+            color: #FFFFFF;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Navigation Bar */
+        .top-bar {
+            background-color: #FA4616;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Map Section */
+        .map-section {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        arcgis-embedded-map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .floating-button {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: #FA4616;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .floating-button:hover {
+            background-color: #FFFFFF;
+            color: #FA4616;
+            transform: scale(1.1);
+        }
+
+        /* Bottom Navigation Bar */
+        .bottom-bar {
+            background-color: #232D4B;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .bottom-bar a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .bottom-bar a:hover {
+            color: #FA4616;
+        }
+
+        .bottom-bar a i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+    </style>
+    <script>
+        let currentFloor = 'first-floor';
+
+        function toggleFloor() {
+            const mapElement = document.querySelector('arcgis-embedded-map');
+            currentFloor = currentFloor === 'first-floor' ? 'second-floor' : 'first-floor';
+
+            const mapId = currentFloor === 'first-floor' 
+                ? '492a28ffa23e407da58e1842ff585884' // First floor map ID
+                : '43348e39ce644a708af4799263ef266f'; // Second floor map ID
+
+            mapElement.setAttribute('item-id', mapId);
+        }
+    </script>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div class="top-bar">
+        Navigate MR5
+    </div>
+
+    <!-- Map Section -->
+    <div class="map-section">
+        <arcgis-embedded-map 
+            item-id="492a28ffa23e407da58e1842ff585884" 
+            theme="light" 
+            portal-url="https://uvalibrary.maps.arcgis.com">
+        </arcgis-embedded-map>
+        <button class="floating-button" onclick="toggleFloor()">⇅</button>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-bar">
+        <a href="#home">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#search">
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+        </a>
+        <a href="#profile">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+        <a href="#settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+    </div>
+
+    <!-- FontAwesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

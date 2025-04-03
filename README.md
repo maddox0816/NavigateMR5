@@ -1,1 +1,1 @@
-Naviage MR5
+Navigate MR5

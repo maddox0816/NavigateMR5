@@ -6,7 +6,6 @@
     <title>Navigate MR5</title>
     <script type="module" src="https://js.arcgis.com/embeddable-components/4.32/arcgis-embeddable-components.esm.js"></script>
     <style>
-        /* General Reset */
         * {
             margin: 0;
             padding: 0;
@@ -23,7 +22,6 @@
             overflow: hidden;
         }
 
-        /* Top Navigation Bar */
         .top-bar {
             background-color: #FA4616;
             color: #FFFFFF;
@@ -34,13 +32,15 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
-        /* Map Section */
-        .map-section {
+        .map-section, .home-section, .help-section {
             flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .map-section {
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: none;
         }
 
         arcgis-embedded-map {
@@ -73,7 +73,6 @@
             transform: scale(1.1);
         }
 
-        /* Bottom Navigation Bar */
         .bottom-bar {
             background-color: #232D4B;
             display: flex;
@@ -91,6 +90,7 @@
             flex-direction: column;
             align-items: center;
             transition: color 0.3s ease;
+            cursor: pointer;
         }
 
         .bottom-bar a:hover {
@@ -101,6 +101,19 @@
             font-size: 1.5rem;
             margin-bottom: 5px;
         }
+
+        .active-section {
+            display: block;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #FA4616;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
     </style>
     <script>
         let currentFloor = 'first-floor';
@@ -110,17 +123,31 @@
             currentFloor = currentFloor === 'first-floor' ? 'second-floor' : 'first-floor';
 
             const mapId = currentFloor === 'first-floor' 
-                ? '492a28ffa23e407da58e1842ff585884' // First floor map ID
-                : '43348e39ce644a708af4799263ef266f'; // Second floor map ID
+                ? '492a28ffa23e407da58e1842ff585884' 
+                : '43348e39ce644a708af4799263ef266f';
 
             mapElement.setAttribute('item-id', mapId);
         }
+
+        function showSection(sectionId) {
+            document.querySelector('.home-section').style.display = 'none';
+            document.querySelector('.map-section').style.display = 'none';
+            document.querySelector('.help-section').style.display = 'none';
+
+            document.querySelector(`.${sectionId}`).style.display = 'block';
+        }
+
+        window.onload = () => showSection('home-section');
     </script>
 </head>
 <body>
-    <!-- Top Navigation Bar -->
-    <div class="top-bar">
-        Navigate MR5
+    <div class="top-bar">Navigate MR5</div>
+
+    <!-- Home Section -->
+    <div class="home-section">
+        <h2>Welcome to Navigate MR5</h2>
+        <p>This app helps you explore the MR5 building at UVA with interactive floor maps and accessible navigation.</p>
+        <p>Use the navigation bar below to switch between maps and help pages.</p>
     </div>
 
     <!-- Map Section -->
@@ -133,27 +160,34 @@
         <button class="floating-button" onclick="toggleFloor()">⇅</button>
     </div>
 
+    <!-- Help Section -->
+    <div class="help-section" style="display: none;">
+        <h2>Help & Questions</h2>
+        <p><strong>How do I switch floors?</strong></p>
+        <p>Click the ⇅ button in the map view to toggle between the first and second floors.</p>
+        <p><strong>What if the map doesn't load?</strong></p>
+        <p>Ensure you have a stable internet connection and refresh the page.</p>
+        <p><strong>Who can I contact for more support?</strong></p>
+        <p>Contact the MR5 Building Support at support@mr5.uva.edu</p>
+    </div>
+
     <!-- Bottom Navigation Bar -->
     <div class="bottom-bar">
-        <a href="#home">
+        <a onclick="showSection('home-section')">
             <i class="fas fa-home"></i>
             <span>Home</span>
         </a>
-        <a href="#search">
-            <i class="fas fa-search"></i>
-            <span>Search</span>
+        <a onclick="showSection('map-section')">
+            <i class="fas fa-map"></i>
+            <span>Map</span>
         </a>
-        <a href="#profile">
-            <i class="fas fa-user"></i>
-            <span>Profile</span>
-        </a>
-        <a href="#settings">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
+        <a onclick="showSection('help-section')">
+            <i class="fas fa-question-circle"></i>
+            <span>Help</span>
         </a>
     </div>
 
-    <!-- FontAwesome for icons -->
+    <!-- FontAwesome -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>

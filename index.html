@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navigate MR5</title>
-    <script type="module" src="https://js.arcgis.com/embeddable-components/4.32/arcgis-embeddable-components.esm.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -116,18 +116,7 @@
         }
     </style>
     <script>
-        let currentFloor = 'first-floor';
 
-        function toggleFloor() {
-            const mapElement = document.querySelector('arcgis-embedded-map');
-            currentFloor = currentFloor === 'first-floor' ? 'second-floor' : 'first-floor';
-
-            const mapId = currentFloor === 'first-floor' 
-                ? '492a28ffa23e407da58e1842ff585884' 
-                : '43348e39ce644a708af4799263ef266f';
-
-            mapElement.setAttribute('item-id', mapId);
-        }
 
         function showSection(sectionId) {
             document.querySelector('.home-section').style.display = 'none';
@@ -152,12 +141,7 @@
 
     <!-- Map Section -->
     <div class="map-section">
-        <arcgis-embedded-map 
-            item-id="492a28ffa23e407da58e1842ff585884" 
-            theme="light" 
-            portal-url="https://uvalibrary.maps.arcgis.com">
-        </arcgis-embedded-map>
-        <button class="floating-button" onclick="toggleFloor()">⇅</button>
+        <iframe href="https://www.mappedin.com/" title="Mappedin Map" name="Mappedin Map" allow="clipboard-write 'self' https://app.mappedin.com; web-share 'self' https://app.mappedin.com" scrolling="no" width="100%" height="100%" frameborder="0" style="border:0" src="https://app.mappedin.com/map/67f7e217b0a41d000bb54d41?embedded=true"></iframe>
     </div>
 
     <!-- Help Section -->

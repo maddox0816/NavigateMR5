@@ -1,177 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navigate MR5</title>
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1E2A3A;
-            color: #FFFFFF;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .top-bar {
-            background-color: #FA4616;
-            color: #FFFFFF;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        .map-section, .home-section, .help-section {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .map-section {
-            position: relative;
-            display: none;
-        }
-
-        arcgis-embedded-map {
-            height: 100%;
-            width: 100%;
-        }
-
-        .floating-button {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background-color: #FA4616;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .floating-button:hover {
-            background-color: #FFFFFF;
-            color: #FA4616;
-            transform: scale(1.1);
-        }
-
-        .bottom-bar {
-            background-color: #232D4B;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 10px 0;
-            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        .bottom-bar a {
-            color: #FFFFFF;
-            text-decoration: none;
-            font-size: 1.2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: color 0.3s ease;
-            cursor: pointer;
-        }
-
-        .bottom-bar a:hover {
-            color: #FA4616;
-        }
-
-        .bottom-bar a i {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        .active-section {
-            display: block;
-        }
-
-        h2 {
-            margin-bottom: 15px;
-            color: #FA4616;
-        }
-
-        p {
-            margin-bottom: 10px;
-        }
-    </style>
-    <script>
-
-
-        function showSection(sectionId) {
-            document.querySelector('.home-section').style.display = 'none';
-            document.querySelector('.map-section').style.display = 'none';
-            document.querySelector('.help-section').style.display = 'none';
-
-            document.querySelector(`.${sectionId}`).style.display = 'block';
-        }
-
-        window.onload = () => showSection('home-section');
-    </script>
+  <meta charset="UTF-8" />
+  <!-- This viewport tag is key for mobile compatibility -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigate MR5</title>
+  <style>
+    /* Reset and base styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1E2A3A;
+      color: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .top-bar {
+      background-color: #FA4616;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      padding: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      flex-shrink: 0;
+    }
+    /* Added a container for the central sections to allow for scrolling in mobile,
+       with a bottom margin that equals the bottom nav's height */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 60px;
+      /* smooth scrolling for mobile users */
+      -webkit-overflow-scrolling: touch;
+    }
+    .home-section,
+    .map-section,
+    .help-section {
+      padding: 20px;
+      display: none;
+    }
+    /* When a section is set as active, we override with display block */
+    .active-section {
+      display: block;
+    }
+    /* For the map section, we embed the new map in an iframe.
+       Note: we use the new map URL (with the same map id) and add ?embedded=true for proper embedding. */
+    .map-section iframe {
+      width: 100%;
+      /* Calculate height by subtracting top padding (20px*2) if needed.
+         You can adjust this calc value to exactly suit the design. */
+      height: calc(100vh - 15px - 60px - 40px);
+      border: 0;
+    }
+    /* Fixed bottom navigation bar for mobile */
+    .bottom-bar {
+      background-color: #232D4B;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    .bottom-bar a {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+    .bottom-bar a:hover {
+      color: #FA4616;
+    }
+    .bottom-bar a i {
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    h2 {
+      margin-bottom: 15px;
+      color: #FA4616;
+    }
+    p {
+      margin-bottom: 10px;
+    }
+  </style>
+  <script>
+    /*
+      This function hides all sections and only displays the one requested.
+      It now looks inside the main-content container, so you can extend or rearrange sections easily.
+    */
+    function showSection(sectionClass) {
+      const sections = document.querySelectorAll('.home-section, .map-section, .help-section');
+      sections.forEach(section => section.style.display = 'none');
+      // Use querySelector with the provided section class and set its display to block.
+      document.querySelector(`.${sectionClass}`).style.display = 'block';
+    }
+    // At load, show the home section.
+    window.onload = () => showSection('home-section');
+  </script>
 </head>
 <body>
-    <div class="top-bar">Navigate MR5</div>
-
+  <div class="top-bar">Navigate MR5</div>
+  
+  <div class="main-content">
     <!-- Home Section -->
     <div class="home-section">
-        <h2>Welcome to Navigate MR5</h2>
-        <p>This app helps you explore the MR5 building at UVA with interactive floor maps and accessible navigation.</p>
-        <p>Use the navigation bar below to switch between maps and help pages.</p>
+      <h2>Welcome to Navigate MR5</h2>
+      <p>
+        This app helps you explore the MR5 building at UVA with interactive floor maps and accessible navigation.
+      </p>
+      <p>Use the navigation bar below to switch between maps and help pages.</p>
     </div>
-
+  
     <!-- Map Section -->
     <div class="map-section">
-        <iframe href="https://www.mappedin.com/" title="Mappedin Map" name="Mappedin Map" allow="clipboard-write 'self' https://app.mappedin.com; web-share 'self' https://app.mappedin.com" scrolling="no" width="100%" height="90%" frameborder="0" style="border:0" src="https://app.mappedin.com/map/67f7e217b0a41d000bb54d41?embedded=true"></iframe>
+      <!-- Updated iframe: removed unused attributes and uses the new map URL.
+           If the embed requires "?embedded=true", you can keep it; if not, you can remove it. -->
+      <iframe 
+        title="Mappedin Map" 
+        src="https://app.mappedin.com/map/67f7e217b0a41d000bb54d41?embedded=true" 
+        allow="clipboard-write; web-share" 
+        scrolling="no">
+      </iframe>
     </div>
-
+  
     <!-- Help Section -->
-    <div class="help-section" style="display: none;">
-        <h2>Help & Questions</h2>
-        <p><strong>How do I switch floors?</strong></p>
-        <p>Click the ⇅ button in the map view to toggle between the first and second floors.</p>
-        <p><strong>What if the map doesn't load?</strong></p>
-        <p>Ensure you have a stable internet connection and refresh the page.</p>
-        <p><strong>Who can I contact for more support?</strong></p>
-        <p>Contact the MR5 Building Support at support@mr5.uva.edu</p>
+    <div class="help-section">
+      <h2>Help &amp; Questions</h2>
+      <p><strong>How do I switch floors?</strong></p>
+      <p>
+        Click the floor toggle button in the map view to switch between levels.
+      </p>
+      <p><strong>What if the map doesn't load?</strong></p>
+      <p>
+        Ensure you have a stable internet connection and try refreshing the page.
+      </p>
+      <p><strong>Who can I contact for more support?</strong></p>
+      <p>
+        Contact the MR5 Building Support at <a href="mailto:support@mr5.uva.edu" style="color:#FA4616;">support@mr5.uva.edu</a>.
+      </p>
     </div>
-
-    <!-- Bottom Navigation Bar -->
-    <div class="bottom-bar">
-        <a onclick="showSection('home-section')">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </a>
-        <a onclick="showSection('map-section')">
-            <i class="fas fa-map"></i>
-            <span>Map</span>
-        </a>
-        <a onclick="showSection('help-section')">
-            <i class="fas fa-question-circle"></i>
-            <span>Help</span>
-        </a>
-    </div>
-
-    <!-- FontAwesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  </div>
+  
+  <!-- Bottom Navigation Bar -->
+  <div class="bottom-bar">
+    <a onclick="showSection('home-section')">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a onclick="showSection('map-section')">
+      <i class="fas fa-map"></i>
+      <span>Map</span>
+    </a>
+    <a onclick="showSection('help-section')">
+      <i class="fas fa-question-circle"></i>
+      <span>Help</span>
+    </a>
+  </div>
+  
+  <!-- FontAwesome (for icons) -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
